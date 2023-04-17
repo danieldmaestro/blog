@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>New Comment</h1>
+    <form class="post_form" method="POST" action="{% url 'add_comment' pk=post.pk %}">
+        {% csrf_token %}
+        <div class="form-group">
+            {% comment %} <label for="{{ form.author.id_for_label }}">Author:</label> {% endcomment %}
+            {{ form.author }}
+        </div>
+        <div class="form-group">
+            {% comment %} <label for="{{ form.text.id_for_label }}">Text:</label> {% endcomment %}
+            {{ form.text }}
+        </div>
+        <button type="submit" class="save btn btn-secondary">Post Comment</button>
+    </form>
+</div>
+
+<div style="height:200px;">
+
+</div>
+
+
+{% endblock %}

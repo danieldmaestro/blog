@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if results %}
+    <h2>Search Results for {{ query }}:</h2>
+    {% for post in results %}
+    <div class="container-fluid">
+        <div class="tn-news">
+            <img class="search_img" style="width: 200px;" src="{{ post.post_image.url }}" >
+            <span><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></span>
+        </div>
+    </div>    
+    {% endfor %}
+    </ul>
+{% else%}
+    <p>There are no results found. </p>
+{% endif %}
+
+<div style="height:200px;">
+
+</div>
+<a href="{% url 'home' %}">Back to Home</a>
+
+{% endblock %}

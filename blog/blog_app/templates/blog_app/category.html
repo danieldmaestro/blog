@@ -1,0 +1,3 @@
+{% for cate in category.post_set.all %}
+<li>{{cate.title}}</li>
+{{ cate.text}} {% endfor %}
