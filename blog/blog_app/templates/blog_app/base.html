@@ -69,7 +69,6 @@
                     <div class="col-lg-3 col-md-4">
                         <div class="b-search">
                             <form id="search" action="{% url 'search' %}">
-                                {% csrf_token %}
                                 {{ searchform.search }}
                                 <button type="submit" form="search"><i class="fa fa-search"></i></button>
                             </form>

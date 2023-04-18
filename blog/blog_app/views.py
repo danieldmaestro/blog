@@ -1,13 +1,22 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, Category, Comment
 from django.views.generic import TemplateView, DetailView
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 from .forms import ContactForm, SearchForm, CommentForm
+from .models import Post, Category, Comment
+
 # Create your views here.
 
 
-class HomeView(TemplateView):
+class CommonEntitiesMixin:
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        context['searchform'] = SearchForm()
+        return context
+    
+
+class HomeView(CommonEntitiesMixin, TemplateView):
     template_name = 'index.html'
     article = "home"
 
@@ -15,17 +24,15 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         # pk = self.kwargs.get('pk2')
         # category = Category.objects.filter(id=pk).first()
-        context["categories"] = Category.objects.all().order_by('-name')
         context["posts"] = Post.objects.all().order_by('title')
         context["mostread"] = Post.objects.all().order_by('num_views')
         context['mostrecent'] = Post.objects.all().order_by('-publish_date')
         context["comments"] = Comment.objects.all()
         context["article"] = self.article
-        context['searchform'] = SearchForm()
         return context
 
 
-class PostDetailView(DetailView):
+class PostDetailView(CommonEntitiesMixin, DetailView):
     model = Post
     template_name = "post_detail.html"
 
@@ -34,13 +41,7 @@ class PostDetailView(DetailView):
         obj.num_views += 1
         obj.save()
         return obj
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
-        context['searchform'] = SearchForm()
-        return context
-
+     
 
 class ContactView(FormView):
     template_name = 'contact_us.html'
@@ -63,6 +64,7 @@ def search_view(request):
     if query:
         results = Post.objects.filter(title__icontains=query)
         return render(request, 'search.html', {'results': results, 'searchform': form, 'query': query, })
+    return render(request, 'search.html', {'searchform': form})
 
 
 def add_comment(request, pk):

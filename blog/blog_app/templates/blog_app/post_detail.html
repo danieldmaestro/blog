@@ -40,14 +40,14 @@
                                 <hr>
                                 <li> 
                                         <p>{{comment.text|safe|linebreaksbr}}</p>
-                                        <p>Posted By: <strong>{{ comment.author }}</strong></p>
+                                        <p>Posted By: <strong>{{ comment.author }} on {{ comment.create_date }}</strong></p>
                                         <a class="save btn btn-secondary" href="{% url 'add_reply' pk=comment.pk %}" data-parent="{{ comment.id }}">Reply Comment</a>
                                         {% if comment.replies %}
                                             <ul>
                                             {% for reply in comment.replies.all %}
                                                 <li>
                                                     <span>{{reply.text|safe|linebreaksbr}}</span>
-                                                    <span class="ml-3">Posted By: <strong>{{ reply.author }}</strong></span>
+                                                    <span class="ml-3">Posted By: <strong>{{ reply.author }}</strong> on {{ reply.create_date }}</span>
                                                 </li>
                                             {% endfor %}
                                             </ul>
