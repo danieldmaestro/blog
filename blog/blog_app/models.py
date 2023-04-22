@@ -1,15 +1,16 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 
 class Post(models.Model):
-    author = models.CharField(max_length=150)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     text = models.TextField()
     post_image = models.ImageField(upload_to='project_media/', null=True)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    category = models.ManyToManyField('Category', blank=True)
     publish_date = models.DateTimeField(auto_now_add=True)
     num_views = models.PositiveIntegerField(default=0)
 
