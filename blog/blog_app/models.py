@@ -10,7 +10,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     text = models.TextField()
     post_image = models.ImageField(upload_to='project_media/', null=True)
-    category = models.ManyToManyField('Category', blank=True)
+    category = models.ManyToManyField('Category', blank=True, related_name='posts')
     publish_date = models.DateTimeField(auto_now_add=True)
     num_views = models.PositiveIntegerField(default=0)
 
