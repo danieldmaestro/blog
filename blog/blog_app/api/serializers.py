@@ -7,6 +7,7 @@ from blog_app.models import Post, Comment, Category
 
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
+    # comments = CommentSerializer(many=True)
     class Meta:
         model = Post
         fields = "__all__"

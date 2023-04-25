@@ -19,6 +19,10 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+    @property
+    def comments(self):
+        return self.comments.all()
 
 
 class Category(models.Model):
